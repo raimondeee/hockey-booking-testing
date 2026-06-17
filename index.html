@@ -866,6 +866,23 @@
             'The Veterans Memorial Coliseum (VMC)': 'Portland, OR'
         };
 
+        const DEMO_SESSIONS = [
+            { id: 'demo-1', title: 'Skills Session', start_time: '2026-07-08T12:30:00', price: 40, active_count: 14, custom_capacity: null, event_type: 'large', location: 'Sherwood Ice Arena' },
+            { id: 'demo-2', title: '10u and Under', start_time: '2026-07-12T09:15:00', price: 40, active_count: 18, custom_capacity: null, event_type: 'large', location: 'Winterhawks Skating Center - Beaverton' },
+            { id: 'demo-3', title: 'Small Group Skills', start_time: '2026-07-18T16:00:00', price: 55, active_count: 4, custom_capacity: 5, event_type: 'small', location: 'The Veterans Memorial Coliseum (VMC)' },
+            { id: 'demo-4', title: 'Power Skating Clinic', start_time: '2026-07-22T11:00:00', price: 40, active_count: 22, custom_capacity: null, event_type: 'large', location: 'Sherwood Ice Arena' },
+            { id: 'demo-5', title: 'Small Group Puck Skills', start_time: '2026-07-29T17:30:00', price: 55, active_count: 3, custom_capacity: 5, event_type: 'small', location: 'Winterhawks Skating Center - Beaverton' },
+            { id: 'demo-6', title: 'Skills Session', start_time: '2026-08-05T12:30:00', price: 40, active_count: 11, custom_capacity: null, event_type: 'large', location: 'Sherwood Ice Arena' },
+            { id: 'demo-7', title: '12u and Under', start_time: '2026-08-12T09:15:00', price: 40, active_count: 20, custom_capacity: null, event_type: 'large', location: 'The Veterans Memorial Coliseum (VMC)' },
+            { id: 'demo-8', title: 'Small Group Skills', start_time: '2026-08-19T16:00:00', price: 55, active_count: 5, custom_capacity: 5, event_type: 'small', location: 'Sherwood Ice Arena' },
+            { id: 'demo-9', title: 'Summer Skills Finale', start_time: '2026-08-26T11:00:00', price: 40, active_count: 9, custom_capacity: null, event_type: 'large', location: 'Winterhawks Skating Center - Beaverton' }
+        ];
+
+        function useDemoSchedule() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('demo') === '1' || window.location.hostname.includes('github.io');
+        }
+
         function formatSessionDate(iso) {
             return new Date(iso).toLocaleString([], {
                 weekday: 'short',
@@ -883,7 +900,7 @@
             const upcoming = sessions
                 .filter(s => new Date(s.start_time) >= now)
                 .sort((a, b) => new Date(a.start_time) - new Date(b.start_time))
-                .slice(0, 6);
+                .slice(0, 8);
 
             if (upcoming.length === 0) {
                 container.innerHTML = '<p class="schedule-empty">No upcoming sessions listed yet. Check back soon or contact Coach Ben.</p>';
@@ -913,14 +930,21 @@
             }).join('') + '</div>';
         }
 
-        const DEMO_SESSIONS = [
-            { id: 1, title: 'Skills Session', start_time: new Date(Date.now() + 86400000 * 3).toISOString(), price: 40, active_count: 16, custom_capacity: null, event_type: 'large', location: 'Sherwood Ice Arena' },
-            { id: 2, title: '10u and Under', start_time: new Date(Date.now() + 86400000 * 8).toISOString(), price: 40, active_count: 8, custom_capacity: null, event_type: 'large', location: 'Winterhawks Skating Center - Beaverton' },
-            { id: 3, title: 'Small Group Skills', start_time: new Date(Date.now() + 86400000 * 12).toISOString(), price: 55, active_count: 3, custom_capacity: 5, event_type: 'small', location: 'The Veterans Memorial Coliseum (VMC)' }
-        ];
-
         async function loadSchedulePreview() {
-            renderSchedulePreview(DEMO_SESSIONS);
+            if (useDemoSchedule()) {
+                renderSchedulePreview(DEMO_SESSIONS);
+                return;
+            }
+            try {
+                const res = await fetch('/api/sessions');
+                const data = await res.json();
+                const sessions = Array.isArray(data) ? data : [];
+                const now = new Date();
+                const hasUpcoming = sessions.some(s => new Date(s.start_time) >= now);
+                renderSchedulePreview(hasUpcoming ? sessions : DEMO_SESSIONS);
+            } catch (err) {
+                renderSchedulePreview(DEMO_SESSIONS);
+            }
         }
 
         function initFaq() {
