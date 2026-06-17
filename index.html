@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ben Stadey Hockey Training — private and small-group on-ice skill development in the Portland metro area.">
+    <title>Ben Stadey Hockey Training | Private Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Black', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        section {
+            scroll-margin-top: 80px;
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #0070ba;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .section-lead {
+            font-family: 'Segoe UI', sans-serif;
+            color: #888;
+            font-size: 17px;
+            line-height: 1.6;
+            max-width: 640px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            background-color: rgba(11, 11, 11, 0.95);
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            font-size: 20px;
+            letter-spacing: 1px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .logo span { color: #0070ba; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-cta {
+            background: #0070ba !important;
+            color: #fff !important;
+            padding: 10px 16px !important;
+            margin-left: 8px;
+        }
+
+        .nav-cta:hover {
+            background: #005fa3 !important;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 20px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 80px;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 52px);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #888;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .cta-btn {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            text-align: center;
+            padding: 16px 32px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            border-radius: 2px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: #0070ba;
+            color: #ffffff;
+        }
+
+        .cta-btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        .cta-btn-outline:hover {
+            border-color: #0070ba;
+            background: rgba(0, 112, 186, 0.12);
+            color: #fff;
+        }
+
+        .card .cta-btn { width: 100%; }
+
+        /* Bands */
+        .band-dark { background: #0b0b0b; padding: 80px 0; }
+        .band-elevated { background: #111111; padding: 80px 0; }
+        .band-light {
+            background: #f4f5f7;
+            color: #1e293b;
+            padding: 80px 0;
+        }
+
+        .band-light .section-label { color: #0070ba; }
+        .band-light .section-title { color: #0f172a; }
+        .band-light .section-lead { color: #64748b; }
+
+        /* Programs */
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #121212;
+            border: 1px solid #1a1a1a;
+            padding: 36px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #333;
+        }
+
+        .card h2 {
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #aaaaaa;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-bullets {
+            list-style: none;
+            margin-bottom: 24px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .card-bullets li {
+            padding: 4px 0 4px 16px;
+            position: relative;
+        }
+
+        .card-bullets li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #0070ba;
+        }
+
+        /* How it works */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            padding: 28px;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #0070ba;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin-bottom: 16px;
+        }
+
+        .step-card h3 {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #888;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: start;
+            margin-top: 40px;
+        }
+
+        .about-photo {
+            aspect-ratio: 3/4;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid #222;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-body p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #aaa;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .credential-list {
+            list-style: none;
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .credential-list li {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            color: #ccc;
+            padding: 10px 14px;
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            border-radius: 4px;
+        }
+
+        /* Testimonials */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card {
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            padding: 28px;
+            border-radius: 4px;
+        }
+
+        .testimonial-card blockquote {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+            color: #ccc;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-card cite {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 12px;
+            color: #666;
+            font-style: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Schedule preview */
+        .session-list {
+            margin-top: 36px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .session-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px 20px;
+            flex-wrap: wrap;
+        }
+
+        .session-card-info h3 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 4px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .session-card-info p {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .session-card-meta {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #334155;
+            text-align: right;
+        }
+
+        .session-card-meta strong {
+            display: block;
+            color: #28a745;
+            font-size: 15px;
+        }
+
+        .session-card .cta-btn {
+            padding: 12px 20px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .schedule-empty,
+        .schedule-loading {
+            font-family: 'Segoe UI', sans-serif;
+            color: #64748b;
+            font-size: 15px;
+            margin-top: 24px;
+        }
+
+        .schedule-footer {
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        /* FAQ */
+        .faq-list {
+            margin-top: 36px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .faq-item {
+            border: 1px solid #1a1a1a;
+            border-radius: 4px;
+            background: #121212;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #fff;
+            text-align: left;
+            padding: 18px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.03); }
+
+        .faq-icon {
+            font-size: 18px;
+            color: #0070ba;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            display: none;
+            padding: 0 20px 18px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            line-height: 1.65;
+            color: #999;
+        }
+
+        .faq-item.open .faq-answer { display: block; }
+
+        /* Contact */
+        .contact-grid {
+            margin-top: 36px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .contact-block h3 {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .contact-block p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .contact-email {
+            color: #0070ba;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .contact-email:hover { color: #ffffff; }
+
+        .policy-links {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .policy-links a {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .policy-links a:hover { color: #0070ba; }
+
+        .policy-links li { padding: 4px 0; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1a1a1a;
+            padding: 32px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 12px;
+            color: #444;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: #fff; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+
+            .nav-toggle { display: block; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(11, 11, 11, 0.98);
+                border-bottom: 1px solid #222;
+                flex-direction: column;
+                padding: 12px;
+                gap: 4px;
+            }
+
+            .nav-links.open { display: flex; }
+
+            .nav-links a {
+                width: 100%;
+                padding: 12px 16px;
+            }
+
+            .nav-cta { margin-left: 0 !important; text-align: center; }
+
+            .about-grid { grid-template-columns: 1fr; }
+            .about-photo { max-width: 240px; margin: 0 auto; }
+
+            .contact-grid { grid-template-columns: 1fr; }
+
+            .session-card { flex-direction: column; align-items: flex-start; }
+            .session-card-meta { text-align: left; }
+
+            footer { flex-direction: column; text-align: center; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#top" class="logo">BEN STADEY <span>HOCKEY</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="#programs">Programs</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#schedule">Schedule</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+            <a href="#schedule" class="nav-cta">Book Now</a>
+        </div>
+    </nav>
+
+    <div id="siteNoticeBannerMount"></div>
+
+    <section class="hero" id="top">
+        <h1>Meaningful On-Ice Training</h1>
+        <p>Sincere coaching with integrity at its core. A human-first approach paired with focused, logical, and easy-to-follow skill development designed to elevate both the person and the player.</p>
+        <div class="hero-actions">
+            <a href="#schedule" class="cta-btn">Book a Session</a>
+            <a href="#about" class="cta-btn cta-btn-outline">Meet Coach Ben</a>
+        </div>
+    </section>
+
+    <section class="band-dark" id="programs">
+        <div class="section-inner">
+            <div class="section-label">Training Programs</div>
+            <h2 class="section-title">Find the Right Fit</h2>
+            <p class="section-lead">Whether your player thrives in a high-rep clinic environment or needs tight small-group attention, every session is built with purpose and capped for quality.</p>
+
+            <div class="training-grid">
+                <div class="card">
+                    <div>
+                        <h2>Large Group Skill Clinics</h2>
+                        <p>Sessions are strictly capped at 25 players to ensure focused and purposeful development. Each session is thoughtfully designed to maximize every second of ice time through intentional, high-repetition movement drills.</p>
+                        <ul class="card-bullets">
+                            <li>Skating foundation → puck skills progression</li>
+                            <li>High-rep drills with clear coaching points</li>
+                            <li>Players leave knowing what to practice next</li>
+                        </ul>
+                    </div>
+                    <a href="#schedule" class="cta-btn">Book Large Group</a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h2>Small Group Sessions</h2>
+                        <p>Intensive, precision-focused training for 3 to 5 players per session, creating an environment for highly personalized coaching and immediate feedback.</p>
+                        <ul class="card-bullets">
+                            <li>60-minute focused skill blocks</li>
+                            <li>Real-time corrections and refinement</li>
+                            <li>Ideal for accelerated technical growth</li>
+                        </ul>
+                    </div>
+                    <a href="#schedule" class="cta-btn">Book Small Group</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-elevated" id="how-it-works">
+        <div class="section-inner">
+            <div class="section-label">Simple Process</div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-lead">Getting on the ice is straightforward — browse, register, and show up ready to work.</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Pick a Session</h3>
+                    <p>Browse the live calendar by date, rink, and session type. Large group and small group options are clearly listed.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Register &amp; Pay</h3>
+                    <p>Complete registration online with secure PayPal checkout. If a session is full, join the waitlist — you'll be notified when a spot opens.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Show Up Ready</h3>
+                    <p>Arrive 15 minutes early with full gear. You'll receive a confirmation email with session details, rink location, and what to expect.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-dark" id="about">
+        <div class="section-inner">
+            <div class="section-label">About the Coach</div>
+            <h2 class="section-title">Coach Ben Stadey</h2>
+
+            <div class="about-grid">
+                <div class="about-photo">Coach Photo</div>
+                <div class="about-body">
+                    <p>Ben Stadey brings a sincere, integrity-driven approach to hockey development — pairing a human-first coaching philosophy with focused, logical skill progressions that players can understand and apply.</p>
+                    <p>Every session is designed to maximize ice time through intentional movement drills, building from skating fundamentals as the base for advanced puck skills including handling, passing, and shooting.</p>
+                    <p>Ben works with players across age groups in the Portland metro area, with sessions held at rinks including Sherwood Ice Arena, Winterhawks Skating Center, and Veterans Memorial Coliseum.</p>
+                    <ul class="credential-list">
+                        <li>Private &amp; small-group on-ice skill development specialist</li>
+                        <li>Structured curriculum: skating → puck skills → game application</li>
+                        <li>Capped rosters for quality reps and individual attention</li>
+                        <li>Portland metro area — multiple rink locations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-elevated" id="testimonials">
+        <div class="section-inner">
+            <div class="section-label">Results &amp; Feedback</div>
+            <h2 class="section-title">What Families Say</h2>
+            <p class="section-lead">Placeholder testimonials — replace with real parent quotes when ready.</p>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <blockquote>"The skating progress our son made in just a few sessions was noticeable right away. Coach Ben explains the why behind every drill."</blockquote>
+                    <cite>— Parent of 12U Player</cite>
+                </div>
+                <div class="testimonial-card">
+                    <blockquote>"Small group sessions gave our daughter the individual corrections she needed. The structure and pace of each session is excellent."</blockquote>
+                    <cite>— Parent of 10U Player</cite>
+                </div>
+                <div class="testimonial-card">
+                    <blockquote>"Clear communication, organized sessions, and players who leave knowing exactly what skill they worked on. Highly recommend."</blockquote>
+                    <cite>— Parent of 14U Player</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-light" id="schedule">
+        <div class="section-inner">
+            <div class="section-label">Live Calendar</div>
+            <h2 class="section-title">Upcoming Sessions</h2>
+            <p class="section-lead">Next available training sessions. Open the full calendar to see everything and register.</p>
+
+            <div id="schedulePreview">
+                <p class="schedule-loading">Loading upcoming sessions…</p>
+            </div>
+
+            <div class="schedule-footer">
+                <a href="#schedule" class="cta-btn">Open Full Calendar →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-dark" id="faq">
+        <div class="section-inner">
+            <div class="section-label">Common Questions</div>
+            <h2 class="section-title">FAQ</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" type="button">How do I register for a session?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Browse the schedule, select a session, and complete the registration form. Payment is processed securely through PayPal. You'll receive a confirmation email with session details.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">What if a session is full?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Join the waitlist for free. When a spot opens, you'll receive an email with a link to claim it. Waitlist invitations expire after 24 hours before passing to the next family in line.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">What should my player bring?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Full hockey gear including skates, helmet, stick, and gloves. Arrive 15 minutes early to get dressed and be on the ice at session start. Bring water.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">What is the cancellation policy?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Contact Coach Ben directly at ben@benstadeyhockey.com for cancellation and refund requests. Policy details will be published here as self-serve cancellation is added.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Where are sessions held?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Sessions are held at rinks across the Portland metro area including Sherwood Ice Arena, Winterhawks Skating Center (Beaverton), and Veterans Memorial Coliseum. The specific rink is listed on each session in the calendar.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Is there a waiver?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">Yes. A liability waiver must be accepted during registration before your player's spot is confirmed. The waiver is completed electronically at checkout.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band-elevated" id="contact">
+        <div class="section-inner">
+            <div class="section-label">Get in Touch</div>
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-grid">
+                <div class="contact-block">
+                    <h3>Questions?</h3>
+                    <p>Programming inquiries, private group requests, or anything not covered in the FAQ — reach out directly.</p>
+                    <a href="mailto:ben@benstadeyhockey.com?subject=Hockey Training Inquiry" class="contact-email">ben@benstadeyhockey.com</a>
+                </div>
+                <div class="contact-block">
+                    <h3>Policies &amp; Trust</h3>
+                    <p>Secure payments processed via PayPal. Registration includes electronic waiver acceptance.</p>
+                    <ul class="policy-links">
+                        <li><a href="#schedule">View live schedule &amp; register</a></li>
+                        <li><a href="https://www.usahockey.com/safesport" target="_blank" rel="noopener">USA Hockey SafeSport</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <span>&copy; 2026 Ben Stadey Hockey Training. All Rights Reserved.</span>
+        <div class="footer-links">
+            <a href="#programs">Programs</a>
+            <a href="#schedule">Schedule</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </footer>
+
+    <script src="site-banner.js"></script>
+    <script>
+        const LOCATION_MAP = {
+            'Sherwood Ice Arena': 'Sherwood, OR',
+            'Winterhawks Skating Center - Beaverton': 'Beaverton, OR',
+            'The Veterans Memorial Coliseum (VMC)': 'Portland, OR'
+        };
+
+        function formatSessionDate(iso) {
+            return new Date(iso).toLocaleString([], {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+        }
+
+        function renderSchedulePreview(sessions) {
+            const container = document.getElementById('schedulePreview');
+            const now = new Date();
+
+            const upcoming = sessions
+                .filter(s => new Date(s.start_time) >= now)
+                .sort((a, b) => new Date(a.start_time) - new Date(b.start_time))
+                .slice(0, 6);
+
+            if (upcoming.length === 0) {
+                container.innerHTML = '<p class="schedule-empty">No upcoming sessions listed yet. Check back soon or contact Coach Ben.</p>';
+                return;
+            }
+
+            container.innerHTML = '<div class="session-list">' + upcoming.map(session => {
+                const cap = session.custom_capacity || (session.event_type === 'small' ? 5 : 25);
+                const spots = `${session.active_count}/${cap} spots`;
+                const location = session.location
+                    ? (LOCATION_MAP[session.location] || session.location)
+                    : 'Location TBD';
+                const price = session.price > 0 ? `$${parseFloat(session.price).toFixed(2)}` : 'Free';
+                const typeLabel = session.event_type === 'small' ? 'Small Group' : 'Large Group';
+
+                return `<article class="session-card">
+                    <div class="session-card-info">
+                        <h3>${session.title}</h3>
+                        <p>${formatSessionDate(session.start_time)} · ${location} · ${typeLabel}</p>
+                    </div>
+                    <div class="session-card-meta">
+                        <strong>${price}</strong>
+                        ${spots}
+                    </div>
+                    <a href="#schedule" class="cta-btn">Book</a>
+                </article>`;
+            }).join('') + '</div>';
+        }
+
+        const DEMO_SESSIONS = [
+            { id: 1, title: 'Skills Session', start_time: new Date(Date.now() + 86400000 * 3).toISOString(), price: 40, active_count: 16, custom_capacity: null, event_type: 'large', location: 'Sherwood Ice Arena' },
+            { id: 2, title: '10u and Under', start_time: new Date(Date.now() + 86400000 * 8).toISOString(), price: 40, active_count: 8, custom_capacity: null, event_type: 'large', location: 'Winterhawks Skating Center - Beaverton' },
+            { id: 3, title: 'Small Group Skills', start_time: new Date(Date.now() + 86400000 * 12).toISOString(), price: 55, active_count: 3, custom_capacity: 5, event_type: 'small', location: 'The Veterans Memorial Coliseum (VMC)' }
+        ];
+
+        async function loadSchedulePreview() {
+            renderSchedulePreview(DEMO_SESSIONS);
+        }
+
+        function initFaq() {
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.closest('.faq-item');
+                    const wasOpen = item.classList.contains('open');
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                    if (!wasOpen) item.classList.add('open');
+                });
+            });
+        }
+
+        function initNav() {
+            const toggle = document.getElementById('navToggle');
+            const links = document.getElementById('navLinks');
+
+            toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+            links.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => links.classList.remove('open'));
+            });
+
+            const sections = document.querySelectorAll('section[id]');
+            const navAnchors = links.querySelectorAll('a[href^="#"]');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const id = entry.target.id;
+                    navAnchors.forEach(a => {
+                        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                    });
+                });
+            }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+            sections.forEach(s => observer.observe(s));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.SiteBanner) {
+                SiteBanner.load({ darkTheme: true, insertBefore: document.querySelector('.hero') });
+            }
+            loadSchedulePreview();
+            initFaq();
+            initNav();
+        });
+    </script>
+</body>
+</html>
